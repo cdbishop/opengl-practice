@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\TriangleScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System\ShaderManager.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System\Application.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System\Shader.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\external\glad.c">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scenes\TexturedTriangleScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="System">
+      <UniqueIdentifier>{39597200-58ef-46d4-81de-8a84c7a3a1e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{e9094bad-5b4e-4c65-9832-a6283729f212}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{dbb15ce8-5a06-4477-a38d-a15aba26db92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{a3fefbd6-5e23-48a0-83e8-4d975c66784b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{5938b865-a843-49be-aab2-a8f78a0a5cc5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\scenes\TriangleScene.hpp">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\ShaderManager.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\Application.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\Shader.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Math\Vector.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\external\stb_image.h">
+      <Filter>External</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\Scene.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes\TexturedTriangleScene.hpp">
+      <Filter>Scenes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\shaders\colour.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="src\shaders\colour.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="src\shaders\multicolour.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="src\shaders\multicolour.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="src\shaders\textured.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="src\shaders\textured.vert">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+</Project>
