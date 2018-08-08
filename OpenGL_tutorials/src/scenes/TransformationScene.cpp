@@ -1,10 +1,14 @@
-#include "TexturedTriangleScene.hpp"
+#include "TransformationScene.hpp"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "../external/stb_image.h"
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <iostream>
 #include <stdexcept>
@@ -14,33 +18,33 @@
 #include "System/ShaderManager.hpp"
 #include "Math/Vector.hpp"
 
-TexturedTriangleScene::TexturedTriangleScene()
+TransformationScene::TransformationScene()
 	:_vertices(
-		{{ 0.5f, 0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
-		   0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
-		   -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-		   -0.5f, 0.5f, 0.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f
-		}}),
+		{ { 0.5f, 0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  1.0f, 1.0f,
+		0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f, 1.0f, 0.0f,
+		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+		-0.5f, 0.5f, 0.0f,  1.0f, 1.0f, 0.0f, 0.0f, 1.0f
+			} }),
 	_indices({
-		0, 1, 3,
-		1, 2, 3
+	0, 1, 3,
+	1, 2, 3
 		})
 {
 }
 
-TexturedTriangleScene::~TexturedTriangleScene()
+TransformationScene::~TransformationScene()
 {
 	glDeleteVertexArrays(1, &_vertex_array);
 	glDeleteBuffers(1, &_vertex_buffer);
 }
 
-void TexturedTriangleScene::Init()
+void TransformationScene::Init()
 {
 	glGenVertexArrays(1, &_vertex_array);
 	glGenBuffers(1, &_vertex_buffer);
 
 	glGenBuffers(1, &_index_buffer);
-	
+
 	glBindVertexArray(_vertex_array);
 
 	glBindBuffer(GL_ARRAY_BUFFER, _vertex_buffer);
@@ -57,7 +61,7 @@ void TexturedTriangleScene::Init()
 
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
-		
+
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
@@ -69,7 +73,7 @@ void TexturedTriangleScene::Init()
 		throw std::runtime_error("Failed to load texture");
 	}
 
-	glGenTextures(1, &_texture);	
+	glGenTextures(1, &_texture);
 
 	glBindTexture(GL_TEXTURE_2D, _texture);
 
@@ -83,15 +87,19 @@ void TexturedTriangleScene::Init()
 
 	stbi_image_free(data);
 
-	_shader = GetApplication()->GetShaderManager()->CreateProgram("textured", "textured");
+	_shader = GetApplication()->GetShaderManager()->CreateProgram("textured_transform", "textured_transform");
 }
 
-void TexturedTriangleScene::Update()
+void TransformationScene::Update()
 {
+	glm::mat4 trans;
+	trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+	trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+	_shader->SetUniformValuePtr("transform", glm::value_ptr(trans));
 }
 
-void TexturedTriangleScene::Render()
-{	
+void TransformationScene::Render()
+{
 	glBindTexture(GL_TEXTURE_2D, _texture);
 	glUseProgram(_shader->GetId());
 	//_shader->SetUniformValue("inTexture", 0);

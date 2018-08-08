@@ -4,17 +4,20 @@
 #include <System/Application.hpp>
 
 #include <scenes/TriangleScene.hpp>
-#include <scenes/TexturedTriangleScene.hpp>
-
+#include <scenes/TexturedQuadScene.hpp>
+#include <scenes/TransformationScene.hpp>
+#include <scenes/CoordinateSystemScene.hpp>
 
 int CALLBACK WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
-	//Application app(800, 600, std::move(std::make_unique<TriangleScene>()));
 	Application app(800, 600);
 	app.RegisterScene("triangleSceneBlockColor", std::move(std::make_unique<TriangleScene>()));
 	app.RegisterScene("triangleSceneMultiColor", std::move(std::make_unique<TriangleScene>()));
-	app.RegisterScene("TexturedTriangleScene", std::move(std::make_unique<TexturedTriangleScene>()));
-	app.SetScene("TexturedTriangleScene");
+	app.RegisterScene("TexturedTriangleScene", std::move(std::make_unique<TexturedQuadScene>()));
+	app.RegisterScene("transformationScene", std::move(std::make_unique<TransformationScene>()));
+	app.RegisterScene("CoordinateSystemScene", std::move(std::make_unique<CoordinateSystemScene>()));
+
+	app.SetScene("CoordinateSystemScene");
 
 	try {
 		app.Run();

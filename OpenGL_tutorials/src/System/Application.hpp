@@ -20,6 +20,21 @@ public:
 
 	std::shared_ptr<ShaderManager> GetShaderManager();
 
+	unsigned int GetWidth() const {
+		return _width;
+	}
+
+	unsigned int GetHeight() {
+		return _height;
+	}
+
+	float GetAspectRatio() {
+		return static_cast<float>(_width) / static_cast<float>(_height);
+	}
+
+	void EnableDepthBuffer();
+	void DisableDepthBuffer();
+
 private:
 	void Init();
 
@@ -39,6 +54,7 @@ private:
 	unsigned int _width;
 	unsigned int _height;
 	GLFWwindow* _window;
+	bool _depthTestEnabled;
 
 	std::string _currentScene;
 	std::map<std::string, std::unique_ptr<Scene>> _scenes;

@@ -5,11 +5,11 @@
 
 class Shader;
 
-class TexturedTriangleScene : public Scene
+class TexturedQuadScene : public Scene
 {
 public:
-	TexturedTriangleScene();
-	~TexturedTriangleScene();
+	TexturedQuadScene();
+	~TexturedQuadScene();
 
 	void Init();
 	void Update();

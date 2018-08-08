@@ -3,7 +3,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-
 #include "System/Application.hpp"
 #include "System/ShaderManager.hpp"
 #include "Math/Vector.hpp"

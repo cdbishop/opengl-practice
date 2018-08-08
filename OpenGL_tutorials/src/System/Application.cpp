@@ -1,7 +1,6 @@
 #include "Application.hpp"
 #include <iostream>
 
-
 Application::Application(unsigned int width, unsigned int height)
 	:_width(width),
 	_height(height),
@@ -19,6 +18,16 @@ Application::Application(unsigned int width, unsigned int height)
 Application::~Application()
 {
 	glfwTerminate();
+}
+
+void Application::EnableDepthBuffer() {
+	glEnable(GL_DEPTH_TEST);
+	_depthTestEnabled = true;
+}
+
+void Application::DisableDepthBuffer() {
+	glDisable(GL_DEPTH_TEST);
+	_depthTestEnabled = false;
 }
 
 void Application::Init()
@@ -89,7 +98,11 @@ void Application::OnFrameBufferResize(int width, int height)
 void Application::PreRender()
 {
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	GLbitfield clearFlags = GL_COLOR_BUFFER_BIT;
+	if (_depthTestEnabled)
+		clearFlags |= GL_DEPTH_BUFFER_BIT;
+
+	glClear(clearFlags);
 }
 
 void Application::Render()
