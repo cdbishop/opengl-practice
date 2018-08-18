@@ -6,6 +6,7 @@
 #include <array>
 
 class Shader;
+class Camera;
 
 class CoordinateSystemScene : public Scene
 {
@@ -27,6 +28,7 @@ private:
 	unsigned int _texture;
 
 	glm::mat4 _model;
-	glm::mat4 _view;
-	glm::mat4 _projection;
+	//glm::mat4 _view;
+	//glm::mat4 _projection;
+	std::shared_ptr<Camera> _camera;
 };

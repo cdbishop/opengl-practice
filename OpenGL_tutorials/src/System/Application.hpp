@@ -7,6 +7,9 @@
 
 #include <memory>
 
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
+
 class Application
 {
 public:
@@ -32,15 +35,37 @@ public:
 		return static_cast<float>(_width) / static_cast<float>(_height);
 	}
 
+	float GetFrameDelta() {
+		return _frameDelta;
+	}
+
+	float MouseX() {
+		return _mouseDeltaX;
+	}
+
+	float MouseY() {
+		return _mouseDeltaY;
+	}
+
 	void EnableDepthBuffer();
 	void DisableDepthBuffer();
+
+	GLFWwindow* GetWindow();
 
 private:
 	void Init();
 
 	static void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
-		Application* pApp = static_cast<Application*>(glfwGetWindowUserPointer(window));	
+		Application* pApp = static_cast<Application*>(glfwGetWindowUserPointer(window));
+		pApp->OnFrameBufferResize(width, height);
 	}
+
+	static void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
+		Application* pApp = static_cast<Application*>(glfwGetWindowUserPointer(window));
+		pApp->MouseMove(xpos, ypos);
+	}
+
+	void MouseMove(float xpos, float ypos);
 
 	void OnFrameBufferResize(int width, int height);
 
@@ -53,6 +78,14 @@ private:
 private:
 	unsigned int _width;
 	unsigned int _height;
+
+	float _lastMouseX;
+	float _lastMouseY;
+
+	bool _firstMouse;
+	float _mouseDeltaX;
+	float _mouseDeltaY;
+
 	GLFWwindow* _window;
 	bool _depthTestEnabled;
 
@@ -60,5 +93,10 @@ private:
 	std::map<std::string, std::unique_ptr<Scene>> _scenes;
 
 	std::shared_ptr<ShaderManager> _shaderManager;
+
+	std::shared_ptr<spdlog::logger> _logger;
+
+	float _frameDelta;
+	float _lastFrameTime;
 };
 

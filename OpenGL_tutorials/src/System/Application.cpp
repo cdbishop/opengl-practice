@@ -1,18 +1,30 @@
 #include "Application.hpp"
 #include <iostream>
+#include <sstream>
+
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
 
 Application::Application(unsigned int width, unsigned int height)
 	:_width(width),
 	_height(height),
-	_window(NULL)
+	_window(NULL),
+	_lastFrameTime(0.0f),
+	_frameDelta(0.0f),
+	_lastMouseX(width / 2),
+	_lastMouseY(height / 2),
+	_mouseDeltaX(0.0f),
+	_mouseDeltaY(0.0f),
+	_firstMouse(true)
 {
-	//_currentScene->SetApp(this);
+	AllocConsole();	
+	_logger = spdlog::stdout_color_mt("console");
+	_logger->set_level(spdlog::level::info);
+	_logger->info("The Application has started");
 
 	Init();
 
 	_shaderManager = std::make_shared<ShaderManager>("../Debug");
-
-	//_currentScene->Init();
 }
 
 Application::~Application()
@@ -30,6 +42,11 @@ void Application::DisableDepthBuffer() {
 	_depthTestEnabled = false;
 }
 
+GLFWwindow * Application::GetWindow()
+{
+	return _window;
+}
+
 void Application::Init()
 {
 	glfwInit();
@@ -45,6 +62,8 @@ void Application::Init()
 
 	glfwMakeContextCurrent(_window);
 
+	glfwSetInputMode(_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {		
 		throw std::runtime_error("Failed to initialize GLAD");
 	}
@@ -54,6 +73,7 @@ void Application::Init()
 	glfwSetWindowUserPointer(_window, this);
 
 	glfwSetFramebufferSizeCallback(_window, framebuffer_size_callback);
+	glfwSetCursorPosCallback(_window, mouse_callback);
 
 	int maxAttributes;
 	glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &maxAttributes);
@@ -87,7 +107,43 @@ std::shared_ptr<ShaderManager> Application::GetShaderManager()
 
 void Application::Update()
 {
+	float currentFrameTime = glfwGetTime();
+	_frameDelta = currentFrameTime - _lastFrameTime;
+	_lastFrameTime = _lastFrameTime;
+
+
 	_scenes[_currentScene]->Update();
+
+	_mouseDeltaX = 0;
+	_mouseDeltaY = 0;
+}
+
+void Application::MouseMove(float xpos, float ypos)
+{
+	if (_firstMouse) {
+		_lastMouseX = xpos;
+		_lastMouseY = ypos;
+
+		_firstMouse = false;
+	}
+
+	_mouseDeltaX = (xpos - _lastMouseX);
+	_mouseDeltaY = (ypos - _lastMouseY);
+
+	_logger->debug("xpos: {0}, ypos: {1}", xpos, ypos);
+	_logger->debug("lastMouse X: {0}, Y: {1}", _lastMouseX, _lastMouseY);
+	_logger->debug("mouseDelta X: {0}, Y: {1}", _mouseDeltaX, _mouseDeltaY);
+
+#if 0
+	std::wstringstream ss;
+	ss << "xpos: " << xpos << ", ypos: " << ypos << std::endl;
+	ss << "lastMouse X: " << _lastMouseX << ", lastMouseY: " << _lastMouseY << std::endl;
+	ss << "MouseDelta x: " << _mouseDeltaX << ", MouseDeltaY: " << _mouseDeltaY << std::endl;
+	OutputDebugString(ss.str().c_str());
+#endif
+
+	_lastMouseX = xpos;
+	_lastMouseY = ypos;
 }
 
 void Application::OnFrameBufferResize(int width, int height)

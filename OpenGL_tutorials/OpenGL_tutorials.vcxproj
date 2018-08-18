@@ -25,6 +25,9 @@
     <ClCompile Include="src\scenes\TransformationScene.cpp" />
     <ClCompile Include="src\scenes\TriangleScene.cpp" />
     <ClCompile Include="src\System\Application.cpp" />
+    <ClCompile Include="src\System\Camera.cpp" />
+    <ClCompile Include="src\System\FPSCamera.cpp" />
+    <ClCompile Include="src\System\Mesh.cpp" />
     <ClCompile Include="src\System\Shader.cpp" />
     <ClCompile Include="src\System\ShaderManager.cpp" />
     <ClCompile Include="src\scenes\TexturedQuadScene.cpp" />
@@ -34,6 +37,9 @@
     <ClInclude Include="src\Math\Vector.hpp" />
     <ClInclude Include="src\scenes\CoordinateSystemScene.hpp" />
     <ClInclude Include="src\scenes\TransformationScene.hpp" />
+    <ClInclude Include="src\System\Camera.hpp" />
+    <ClInclude Include="src\System\FPSCamera.hpp" />
+    <ClInclude Include="src\System\Mesh.hpp" />
     <ClInclude Include="src\System\Scene.hpp" />
     <ClInclude Include="src\scenes\TriangleScene.hpp" />
     <ClInclude Include="src\System\Application.hpp" />
@@ -41,6 +47,8 @@
     <ClInclude Include="src\System\ShaderManager.hpp" />
     <ClInclude Include="src\scenes\TexturedQuadScene.hpp" />
     <ClInclude Include="src\System\stbi_wrapper.h" />
+    <ClInclude Include="src\System\VertexPosTex.hpp" />
+    <ClInclude Include="src\System\Windows_defuckery.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shaders\colour.frag" />
@@ -126,7 +134,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./src;C:\thirdparty\glad\include;C:\thirdparty\glfw\include;C:\thirdparty\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./src;C:\thirdparty\glad\include;C:\thirdparty\glfw\include;C:\thirdparty\glm;C:\thirdparty\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>

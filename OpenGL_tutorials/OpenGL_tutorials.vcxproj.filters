@@ -28,6 +28,15 @@
     <ClCompile Include="src\scenes\CoordinateSystemScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="src\System\Camera.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System\FPSCamera.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System\Mesh.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="System">
@@ -79,6 +88,21 @@
     </ClInclude>
     <ClInclude Include="src\scenes\CoordinateSystemScene.hpp">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\Camera.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\Windows_defuckery.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\FPSCamera.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\Mesh.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System\VertexPosTex.hpp">
+      <Filter>System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

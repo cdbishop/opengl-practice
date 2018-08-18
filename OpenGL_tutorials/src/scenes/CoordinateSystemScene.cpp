@@ -14,6 +14,8 @@
 
 #include "System/Application.hpp"
 #include "System/ShaderManager.hpp"
+#include <System/Camera.hpp>
+#include <System/FPSCamera.hpp>
 #include "Math/Vector.hpp"
 
 CoordinateSystemScene::CoordinateSystemScene()
@@ -114,17 +116,21 @@ void CoordinateSystemScene::Init()
 	_shader = GetApplication()->GetShaderManager()->CreateProgram("textured_coordsys", "textured_coordsys");
 
 	_model = glm::rotate(_model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	_view = glm::translate(_view, glm::vec3(0.0f, 0.0f, -3.0f));
-	_projection = glm::perspective(glm::radians(45.0f), GetApplication()->GetAspectRatio(), 0.1f, 100.0f);
+	
+	_camera = std::make_shared<FPSCamera>(glm::vec3(0.0f, 0.0f, 3.0f),
+		glm::vec3(0.0f, 0.0f, -1.0f),
+		glm::vec3(0.0f, 1.0f, 0.0f), GetApplication()->GetAspectRatio(), 0.1f, 100.0f, GetApplication());
 }
 
 void CoordinateSystemScene::Update()
 {
 	_model = glm::rotate(_model, glm::radians(-0.5f), glm::vec3(1.0f, 0.0f, 0.0f));
 
+	_camera->Update();
+
 	_shader->SetUniformValuePtr("model", glm::value_ptr(_model));
-	_shader->SetUniformValuePtr("view", glm::value_ptr(_view));
-	_shader->SetUniformValuePtr("projection", glm::value_ptr(_projection));
+	_shader->SetUniformValuePtr("view", glm::value_ptr(_camera->GetView()));
+	_shader->SetUniformValuePtr("projection", glm::value_ptr(_camera->GetProjection()));
 }
 
 void CoordinateSystemScene::Render()
@@ -136,3 +142,4 @@ void CoordinateSystemScene::Render()
 	glBindVertexArray(_vertex_array);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
+
