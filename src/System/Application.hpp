@@ -62,7 +62,7 @@ private:
 
 	static void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
 		Application* pApp = static_cast<Application*>(glfwGetWindowUserPointer(window));
-		pApp->MouseMove(xpos, ypos);
+		pApp->MouseMove(static_cast<float>(xpos), static_cast<float>(ypos));
 	}
 
 	void MouseMove(float xpos, float ypos);

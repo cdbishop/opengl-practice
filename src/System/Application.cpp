@@ -11,8 +11,8 @@ Application::Application(unsigned int width, unsigned int height)
 	_window(NULL),
 	_lastFrameTime(0.0f),
 	_frameDelta(0.0f),
-	_lastMouseX(width / 2),
-	_lastMouseY(height / 2),
+	_lastMouseX(width / 2.0f),
+	_lastMouseY(height / 2.0f),
 	_mouseDeltaX(0.0f),
 	_mouseDeltaY(0.0f),
 	_firstMouse(true)
@@ -107,7 +107,7 @@ std::shared_ptr<ShaderManager> Application::GetShaderManager()
 
 void Application::Update()
 {
-	float currentFrameTime = glfwGetTime();
+	float currentFrameTime = static_cast<float>(glfwGetTime());
 	_frameDelta = currentFrameTime - _lastFrameTime;
 	_lastFrameTime = _lastFrameTime;
 
