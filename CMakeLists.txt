@@ -22,6 +22,10 @@ foreach(vertshader IN LISTS vert_shaders_list)
     configure_file("${vertshader}" "bin/shaders/${source_path}" COPYONLY)
 endforeach()
 
+foreach(fragshader IN LISTS frag_shaders_list)
+    get_filename_component(source_path "${fragshader}" NAME)
+    configure_file("${fragshader}" "bin/shaders/${source_path}" COPYONLY)
+endforeach()
 
 foreach(source IN LISTS source_list)
     get_filename_component(source_path "${source}" PATH)
