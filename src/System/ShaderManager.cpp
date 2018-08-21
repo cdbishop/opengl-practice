@@ -47,8 +47,8 @@ ShaderManager::~ShaderManager()
 std::shared_ptr<Shader> ShaderManager::CreateProgram(const std::string & vertexShader, const std::string & fragmentShader)
 {
 	unsigned int program = glCreateProgram();
-	glAttachShader(program, _vertex_shaders[vertexShader]);
-	glAttachShader(program, _fragment_shaders[fragmentShader]);
+	glAttachShader(program, _vertex_shaders.at(vertexShader));
+	glAttachShader(program, _fragment_shaders.at(fragmentShader));
 	glLinkProgram(program);
 
 	int success = 0;
