@@ -1,5 +1,6 @@
 #pragma once
 #include <System/Scene.hpp>
+#include <object/cube.hpp>
 
 #include <glm/glm.hpp>
 
@@ -15,14 +16,17 @@ public:
 	~CoordinateSystemScene();
 
 	void Init();
+	void createTexture();
 	void Update();
 	void Render();
 
 private:
-	std::array<float, 180> _vertices;
-	
+	std::array<float, 180> _vertices;	
 	unsigned int _vertex_buffer;
 	unsigned int _vertex_array;
+
+	std::shared_ptr<Cube> _cube;
+	std::shared_ptr<Cube> _cube2;
 	
 	std::shared_ptr<Shader> _shader;
 	unsigned int _texture;

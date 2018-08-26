@@ -8,7 +8,6 @@
 #include <scenes/TransformationScene.hpp>
 #include <scenes/CoordinateSystemScene.hpp>
 
-//int CALLBACK WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 int main(int argc, char** argv) {
 
 	Application app(800, 600);
