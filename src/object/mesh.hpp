@@ -3,6 +3,7 @@
 #include <System/VertexPosTex.hpp>
 #include <System/Shader.hpp>
 #include <System/Camera.hpp>
+#include <object/texture.hpp>
 
 #include <vector>
 #include <memory>
@@ -10,8 +11,12 @@
 
 class Mesh {
 public:
-	Mesh(std::initializer_list<VertexPosTex> data, unsigned int texture);
+	Mesh(std::initializer_list<VertexPosTex> data);
+	Mesh(std::initializer_list<VertexPosTex> data, std::shared_ptr<Texture> texture);
 	virtual ~Mesh();
+
+	void SetColour(glm::vec3 colour);
+	const glm::vec3& GetColour() const;
 
 	void Translate(glm::vec3 movement);
 
@@ -25,7 +30,8 @@ public:
 
 private:
 	std::vector<VertexPosTex> _vertices;
-	unsigned int _texture;
+	std::shared_ptr<Texture> _texture;
+	glm::vec3 _colour;
 
 	glm::mat4 _matrix;
 

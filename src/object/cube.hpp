@@ -4,7 +4,8 @@
 
 class Cube : public Mesh {
 public:
-	static std::initializer_list<VertexPosTex> data;
+	static const std::initializer_list<VertexPosTex> data;
 
-	Cube(unsigned int texture);
+	Cube();
+	Cube(std::shared_ptr<Texture> texture, glm::vec3 colour = glm::vec3(1.0f, 1.0f, 1.0f));
 };

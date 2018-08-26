@@ -9,6 +9,23 @@ Shader::~Shader()
 {
 }
 
+void Shader::SetVariableCb(const std::string & variable, UniformCallback callback)
+{
+	_uniform_callbacks[variable] = callback;
+}
+
+void Shader::UpdateUniforms()
+{
+	for (auto&& cb : _uniform_callbacks) {
+		cb.second(cb.first, this);
+	}
+}
+
+void Shader::UpdateUniform(const std::string & variable)
+{
+	_uniform_callbacks.at(variable)(variable, this);
+}
+
 unsigned int Shader::GetId()
 {
 	return _program;

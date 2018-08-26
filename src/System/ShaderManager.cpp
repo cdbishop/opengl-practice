@@ -57,6 +57,7 @@ std::shared_ptr<Shader> ShaderManager::CreateProgram(const std::string & vertexS
 	if (!success) {
 		glGetProgramInfoLog(program, 512, NULL, infoLog);
 		std::cerr << "Error Linking: " << vertexShader << " and " << fragmentShader << " Failed: " << infoLog << std::endl;
+		throw std::runtime_error("Failed to compile shader");
 	}
 
 	return std::make_shared<Shader>(program);
