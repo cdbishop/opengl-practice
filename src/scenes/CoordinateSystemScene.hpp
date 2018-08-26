@@ -21,10 +21,6 @@ public:
 	void Render();
 
 private:
-	std::array<float, 180> _vertices;	
-	unsigned int _vertex_buffer;
-	unsigned int _vertex_array;
-
 	std::shared_ptr<Cube> _cube;
 	std::shared_ptr<Cube> _cube2;
 	
