@@ -24,7 +24,7 @@ Application::Application(unsigned int width, unsigned int height)
 
 	Init();
 
-	_shaderManager = std::make_shared<ShaderManager>("./bin/shaders");
+	_shaderManager = std::make_shared<ShaderManager>("./shaders");
 }
 
 Application::~Application()

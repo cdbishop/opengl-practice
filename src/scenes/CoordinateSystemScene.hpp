@@ -6,6 +6,7 @@
 #include <glm/glm.hpp>
 
 #include <array>
+#include <memory>
 
 class Shader;
 class Camera;

@@ -2,6 +2,7 @@
 #include <System/Scene.hpp>
 
 #include <array>
+#include <memory>
 
 class Shader;
 

@@ -32,17 +32,25 @@ public:
 private:
 	void UpdateUniform(const std::string& variable);
 
-	template<typename T, typename IsVector3 = typename std::enable_if<std::is_same<T, glm::vec3>::value>::type>
-	void SetUniform(const std::string& variable, const T& value);
+	template<typename T, typename std::enable_if<std::is_same<T, glm::vec3>::value>::type...>
+	void SetUniform(const std::string& variable, const glm::vec3& value) {
+		glUniform3f(_uniforms[variable], value.x, value.y, value.z);
+	}
 
-	template<typename T, typename IsIntegral = typename std::enable_if<std::is_integral<T>::value && !std::is_floating_point<T>::value>::type>
-	void SetUniform(const std::string& variable, T value);
+	template<typename T, typename std::enable_if<std::is_integral<T>::value>::type...>
+	void SetUniform(const std::string& variable, T value) {
+		glUniform1i(_uniforms[variable], value);
+	}
 
-	template<typename T, typename IsFloat = typename std::enable_if<std::is_floating_point<T>::value && !std::is_integral<T>::value>::type>
-	void SetUniform(const std::string& variable, T value);
+	template<typename T, typename std::enable_if<std::is_floating_point<T>::value>::type>
+	void SetUniform(const std::string& variable, float value) {
+		glUniform1i(_uniforms[variable], value);
+	}
 
 	template<typename T, typename IsFloatPtr = typename std::enable_if<std::is_same<T, float*>::value>::type>
-	void SetUniformPtr(const std::string& variable, T value);
+	void SetUniformPtr(const std::string& variable, T value) {
+		glUniformMatrix4fv(_uniforms[variable], 1, GL_FALSE, value);
+	}
 
 private:
 	unsigned int _program;
@@ -61,7 +69,7 @@ inline void Shader::SetUniformValue(const std::string & variable, const T & valu
 		}*/
 	}
 
-	SetUniform(variable, value);
+	SetUniform<T>(variable, value);
 }
 
 template<typename T>
@@ -75,20 +83,4 @@ inline void Shader::SetUniformValuePtr(const std::string & variable, const T & v
 	}
 
 	SetUniformPtr(variable, value);
-}
-
-template<typename T, typename IsVector3>
-inline void Shader::SetUniform(const std::string & variable, const T & value)
-{
-	glUniform3f(_uniforms[variable], value.x, value.y, value.z);
-}
-
-template<typename T, typename IsIntegral>
-void Shader::SetUniform(const std::string& variable, T value) {
-	glUniform1i(_uniforms[variable], value);
-}
-
-template<typename T, typename IsFloatPtr>
-void Shader::SetUniformPtr(const std::string& variable, T value) {
-	glUniformMatrix4fv(_uniforms[variable], 1, GL_FALSE, value);
 }

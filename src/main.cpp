@@ -19,12 +19,11 @@ int main(int argc, char** argv) {
 	app.RegisterScene("coordinateSystemScene", std::move(std::make_unique<CoordinateSystemScene>()));
 	app.RegisterScene("lightingScene", std::move(std::make_unique<LightingScene>()));
 
-	app.SetScene("lightingScene");
-
 	try {
+		app.SetScene("lightingScene");
 		app.Run();
 	}
-	catch (const std::runtime_error& e) {
+	catch (const std::exception& e) {
 		std::cerr << "Failed to run application: " << e.what() << std::endl;
 		return -1;
 	}

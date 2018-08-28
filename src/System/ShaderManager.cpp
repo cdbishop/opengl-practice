@@ -1,6 +1,6 @@
 #include "ShaderManager.hpp"
 
-#include <filesystem>
+#include <boost/filesystem.hpp>
 #include <sstream>
 #include <fstream>
 #include <iostream>
@@ -8,24 +8,25 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-namespace fs = std::filesystem;
+namespace fs = boost::filesystem;
 
 ShaderManager::ShaderManager(std::string directory)
 {
+	std::cerr << fs::current_path() << std::endl;
+
 	// given a directory - will load all the files ending in .vert and .frag
 	// will store vertex (.vert) and fragment (.frag) shaders by name as key
 	// can request a program by specifiying .vert and .frag
-
 	for (auto& file : fs::directory_iterator(directory)) {
 		const auto& ext = file.path().extension();
 		const auto& name = file.path().stem().string();
 		if (ext == ".vert") {
-			std::ifstream in(file.path());
+			std::ifstream in(file.path().string());
 			std::string str(static_cast<std::stringstream const&>(std::stringstream() << in.rdbuf()).str());
 			LoadVertexShader(name, str);
 		}
 		else if (ext == ".frag") {
-			std::ifstream in(file.path());
+			std::ifstream in(file.path().string());
 			std::string str(static_cast<std::stringstream const&>(std::stringstream() << in.rdbuf()).str());
 			LoadFragmentShader(name, str);
 		}

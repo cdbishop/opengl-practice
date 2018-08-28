@@ -9,7 +9,6 @@
 #include <iostream>
 #include <stdexcept>
 
-
 #include "System/Application.hpp"
 #include "System/ShaderManager.hpp"
 #include "Math/Vector.hpp"
@@ -63,7 +62,7 @@ void TexturedQuadScene::Init()
 
 	//texture
 	int width, height, nChannels;
-	unsigned char* data = stbi_load("./bin/data/textures/wall.jpg", &width, &height, &nChannels, 0);
+	unsigned char* data = stbi_load("./data/textures/wall.jpg", &width, &height, &nChannels, 0);
 	if (!data) {
 		std::cerr << "Failed to load texture" << std::endl;
 		throw std::runtime_error("Failed to load texture");
