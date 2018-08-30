@@ -86,6 +86,11 @@
         "xutility": "cpp",
         "*.tcc": "cpp",
         "hash_map": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "*.ipp": "cpp",
+        "csignal": "cpp",
+        "cwctype": "cpp",
+        "rope": "cpp",
+        "cinttypes": "cpp"
     }
 }
