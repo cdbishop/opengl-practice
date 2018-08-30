@@ -2,8 +2,10 @@
 out vec4 FragColor;
 
 in vec3 inColour;
+in float inAmbient;
 
 void main()
 {
-    FragColor = vec4(inColour, 1.0);
-} 
+    vec3 ambient = inAmbient * inColour;
+    FragColor = vec4(ambient, 1.0);
+}

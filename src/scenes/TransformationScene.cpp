@@ -102,7 +102,7 @@ void TransformationScene::Render()
 {
 	glBindTexture(GL_TEXTURE_2D, _texture);
 	glUseProgram(_shader->GetId());
-	//_shader->SetUniformValue("inTexture", 0);
+	_shader->SetUniformValue("inTexture", 0);
 	glBindVertexArray(_vertex_array);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

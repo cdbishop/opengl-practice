@@ -50,7 +50,13 @@ void LightingScene::Init()
 		shader->SetUniformValue(variable, _cube1->GetColour());
 	});
 
-	_object_shader->SetUniformValue("ambientStrength", 0.1f);
+	_object_shader->SetVariableCb("lightColour", [&](const std::string& variable, Shader* shader) {
+		shader->SetUniformValue(variable, _cube1->GetColour());
+	});
+
+	_object_shader->SetVariableCb("ambientStrength", [&](const std::string& variable, Shader* shader) {
+		shader->SetUniformValue(variable, 0.2f);
+	});
 }
 
 void LightingScene::Update()
