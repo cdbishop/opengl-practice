@@ -4,40 +4,9 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-Mesh::Mesh(std::initializer_list<VertexPosTex> data)
-	:Mesh(std::move(data), nullptr) {
-}
-
-Mesh::Mesh(std::initializer_list<VertexPosTex> data, std::shared_ptr<Texture> texture)
-	:_vertices(std::move(data)),
-	_texture(texture),
-	_num_triangles(static_cast<unsigned int>(_vertices.size())),
-	_colour(glm::vec3(1.0f, 1.0, 1.0f)) {
-
-	glGenVertexArrays(1, &_vertex_array);
-	glGenBuffers(1, &_vertex_buffer);
-
-	glBindVertexArray(_vertex_array);
-
-	glBindBuffer(GL_ARRAY_BUFFER, _vertex_buffer);
-	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(VertexPosTex), &_vertices[0], GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-
-	_matrix = glm::mat4();
-}
-
 Mesh::~Mesh()
 {
-	glDeleteVertexArrays(1, &_vertex_array);
-	glDeleteBuffers(1, &_vertex_buffer);
+	
 }
 
 void Mesh::SetColour(glm::vec3 colour)
@@ -48,6 +17,10 @@ void Mesh::SetColour(glm::vec3 colour)
 const glm::vec3 & Mesh::GetColour() const
 {
 	return _colour;
+}
+
+const glm::vec3 Mesh::GetPosition() const {
+	return glm::vec3(_matrix[0][0], _matrix[0][1], _matrix[0][2]);
 }
 
 void Mesh::Translate(glm::vec3 movement)
@@ -66,7 +39,21 @@ void Mesh::Draw(std::shared_ptr<Shader> shader, std::shared_ptr<Camera> camera)
 	glUseProgram(shader->GetId());
 
 	glm::mat4 mvp = camera->GetProjection() * camera->GetView() * GetMatrix();
-	shader->SetUniformValuePtr("mvp", glm::value_ptr(mvp));
+	glm::mat4 model = GetMatrix();
+	glm::mat4 view = camera->GetView();
+	glm::mat4 proj = camera->GetProjection();
+
+	if (shader->HasUniform("mvp"))
+		shader->SetUniformValuePtr("mvp", glm::value_ptr(mvp));
+
+	if (shader->HasUniform("model"))
+		shader->SetUniformValuePtr("model", glm::value_ptr(model));
+
+	if (shader->HasUniform("view"))
+		shader->SetUniformValuePtr("view", glm::value_ptr(view));
+
+	if (shader->HasUniform("projection"))
+		shader->SetUniformValuePtr("projection", glm::value_ptr(proj));
 
 	if (_texture) {
 		glBindTexture(GL_TEXTURE_2D, _texture->Id());
@@ -77,6 +64,6 @@ void Mesh::Draw(std::shared_ptr<Shader> shader, std::shared_ptr<Camera> camera)
 
 	shader->UpdateUniforms();
 
-	glBindVertexArray(_vertex_array);
-	glDrawArrays(GL_TRIANGLES, 0, _num_triangles);
+	glBindVertexArray(_impl->_vertex_array);
+	glDrawArrays(GL_TRIANGLES, 0, _impl->_num_triangles);
 }

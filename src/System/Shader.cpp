@@ -30,3 +30,8 @@ unsigned int Shader::GetId()
 {
 	return _program;
 }
+
+bool Shader::HasUniform(const std::string& uniform) {
+	int loc = glGetUniformLocation(_program, uniform.c_str());
+	return loc >= 0;
+}

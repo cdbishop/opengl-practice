@@ -17,6 +17,8 @@ public:
 	Shader(unsigned int program);
 	~Shader();
 
+	bool HasUniform(const std::string& variable);
+
 	template<typename T>
 	void SetUniformValue(const std::string& variable, const T& value);
 

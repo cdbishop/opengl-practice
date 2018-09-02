@@ -31,8 +31,8 @@ void CoordinateSystemScene::Init()
 	GetApplication()->EnableDepthBuffer();
 
 	_texture = std::make_shared<Texture>("./data/textures/wall.jpg");
-	_cube = std::make_shared<Cube>(_texture);
-	_cube2 = std::make_shared<Cube>(_texture);
+	_cube = std::make_shared<Cube>(Cube::data_pt, _texture);
+	_cube2 = std::make_shared<Cube>(Cube::data_pt, _texture);
 
 	_shader = GetApplication()->GetShaderManager()->CreateProgram("textured_coordsys", "textured_coordsys");
 

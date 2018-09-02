@@ -30,8 +30,8 @@ void LightingScene::Init()
 {
 	GetApplication()->EnableDepthBuffer();
 
-	_cube1 = std::make_shared<Cube>(nullptr, glm::vec3(1.0f, 1.0f, 1.0f));
-	_cube2 = std::make_shared<Cube>(nullptr, glm::vec3(0.5f, 0.5f, 0.2f));
+	_cube1 = std::make_shared<Cube>(Cube::data_pt, nullptr, glm::vec3(1.0f, 1.0f, 1.0f));
+	_cube2 = std::make_shared<Cube>(Cube::data_pt, nullptr, glm::vec3(0.5f, 0.5f, 0.2f));
 
 	_lamp_shader = GetApplication()->GetShaderManager()->CreateProgram("colour_transform", "colour_transform");
 	_object_shader = GetApplication()->GetShaderManager()->CreateProgram("ambient_transform", "ambient_transform");
@@ -46,16 +46,24 @@ void LightingScene::Init()
 		glm::vec3(0.0f, 0.0f, -1.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f), GetApplication()->GetAspectRatio(), 0.1f, 100.0f, GetApplication());
 
-	_object_shader->SetVariableCb("lightColour", [&](const std::string& variable, Shader* shader) {
+	_object_shader->SetVariableCb("objectColour", [&](const std::string& variable, Shader* shader) {
+		shader->SetUniformValue(variable, _cube2->GetColour());
+	});
+
+	_object_shader->SetVariableCb("ambientLightColour", [&](const std::string& variable, Shader* shader) {
 		shader->SetUniformValue(variable, _cube1->GetColour());
 	});
 
-	_object_shader->SetVariableCb("lightColour", [&](const std::string& variable, Shader* shader) {
+	_object_shader->SetVariableCb("diffuseLightColour", [&](const std::string& variable, Shader* shader) {
 		shader->SetUniformValue(variable, _cube1->GetColour());
 	});
 
 	_object_shader->SetVariableCb("ambientStrength", [&](const std::string& variable, Shader* shader) {
 		shader->SetUniformValue(variable, 0.2f);
+	});
+
+	_object_shader->SetVariableCb("lightPos", [&](const std::string& variable, Shader* shader) {
+		shader->SetUniformValue(variable, _cube1->GetPosition());
 	});
 }
 
